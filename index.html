@@ -58,12 +58,12 @@ body{
     background:var(--branco);
     border-radius:var(--raio);
     box-shadow:var(--sombra);
-    padding:15px;
+    padding:12px;
     text-align:center;
     margin-bottom:20px;
 }
 
-.logo-prefeitura img{ width:85px; margin-bottom:3px; }
+.logo-prefeitura img{ width:85px; margin-bottom:2px; }
 
 .topo h1{
     font-size:24px;
@@ -82,7 +82,7 @@ body{
     position:relative;
     background:white;
     border-radius:var(--raio);
-    padding:20px;
+    padding:15px;
     box-shadow:var(--sombra);
     overflow:hidden;
 }
@@ -100,12 +100,12 @@ body{
 
 label{
     display:block;
-    margin-bottom:4px;
+    margin-bottom:3px;
     font-weight:bold;
     color:#333;
 }
 
-.linha{ margin-bottom:15px; }
+.linha{ margin-bottom:12px; }
 
 .linha-dupla{
     display:grid;
@@ -135,7 +135,7 @@ input:focus, textarea:focus{
 
 textarea{
     resize:vertical;
-    min-height:220px;
+    min-height:150px;
     line-height:1.1;
 }
 
@@ -218,17 +218,48 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
 
 @media (max-width:768px){
     body{ padding:12px; }
-    #pdfArea{ padding:20px; }
+    #pdfArea{ padding:15px; }
     .topo{ padding:15px; }
     .topo h1{ font-size:20px; }
     .topo h2{ font-size:15px; }
     .logo-prefeitura img{ width:75px; }
     .linha-dupla{ grid-template-columns:1fr; }
-    textarea{ min-height:180px; }
-    .assinaturaBox{ height:180px; }
+    textarea{ min-height:150px; }
+    .assinaturaBox{ height:150px; }
     .barraBotoes{ flex-direction:column; }
     .barraBotoes button{ width:100%; }
     .marcaDagua img{ width:220px; }
+}
+   /* ==================================================
+        LAYOUT ESPECÍFICO PARA O PDF
+==================================================*/
+
+#pdfArea.modo-pdf{
+
+    width:210mm;
+
+}
+
+#pdfArea.modo-pdf .linha-dupla{
+
+    display:grid !important;
+
+    grid-template-columns:2fr 1fr 1fr !important;
+
+    gap:16px;
+
+}
+
+#pdfArea.modo-pdf input{
+
+    font-size:15px;
+
+}
+
+#pdfArea.modo-pdf textarea{
+
+    font-size:15px;
+
 }
 
 @media print{
@@ -244,7 +275,7 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
     border:1px solid #cfcfcf;
     border-radius:8px;
     padding:8px;
-    min-height:220px;
+    min-height:150px;
     white-space:pre-wrap;
     word-break:break-word;
     line-height:1.1;
@@ -535,6 +566,8 @@ async function gerarPDF(compartilhar = false){
 
     // Esconde os botões
     barraBotoes.style.display = "none";
+   // Força o layout de impressão (desktop)
+   pdfArea.classList.add("modo-pdf");
 
     try{
 
@@ -620,21 +653,6 @@ async function gerarPDF(compartilhar = false){
 
         alert("Erro ao gerar o PDF.");
 
-    }finally{
-
-        // Restaura interface
-
-        descricaoPDF.style.display = "none";
-        textarea.style.display = "";
-
-        barraBotoes.style.display = "";
-
-        btnPDF.disabled = false;
-        btnCompartilhar.disabled = false;
-
-        btnPDF.textContent = textoOriginal;
-
-    }
 
 }
 /*=========================================================
