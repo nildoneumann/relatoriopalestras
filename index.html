@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Relatório de Palestras</title>
+
+<meta name="theme-color" content="#1f2937">
+<meta name="description" content="Relatório de Atividades - Departamento de Educação para o Trânsito">
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+
+<!-- BIBLIOTECAS VIA CDN (Garante que funcione sem servidor local) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* ==========================================================
+   RELATÓRIO DE PALESTRAS - CSS
+========================================================== */
+
+:root{
+    --azul:#1f4e79;
+    --azulEscuro:#153654;
+    --cinza:#666;
+    --borda:#cfcfcf;
+    --fundo:#eef2f7;
+    --branco:#ffffff;
+    --verde:#198754;
+    --verdeHover:#157347;
+    --vermelho:#dc3545;
+    --vermelhoHover:#bb2d3b;
+    --sombra:0 6px 20px rgba(0,0,0,.15);
+    --raio:12px;
+    --fonte:Arial,Helvetica,sans-serif;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+    background:var(--fundo);
+    font-family:var(--fonte);
+    color:#222;
+    padding:20px;
+}
+
+.app{ max-width:900px; margin:auto; }
+
+.topo{
+    background:var(--branco);
+    border-radius:var(--raio);
+    box-shadow:var(--sombra);
+    padding:20px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo-prefeitura img{ width:85px; margin-bottom:7px; }
+
+.topo h1{
+    font-size:24px;
+    color:var(--azulEscuro);
+    line-height:1.35;
+    margin-bottom:5px;
+}
+
+.topo h2{
+    font-size:18px;
+    color:var(--cinza);
+    font-weight:normal;
+}
+
+#pdfArea{
+    position:relative;
+    background:white;
+    border-radius:var(--raio);
+    padding:25px;
+    box-shadow:var(--sombra);
+    overflow:hidden;
+}
+
+.marcaDagua{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    pointer-events:none;
+}
+
+.marcaDagua img{ width:330px; opacity:.06; }
+
+label{
+    display:block;
+    margin-bottom:4px;
+    font-weight:bold;
+    color:#333;
+}
+
+.linha{ margin-bottom:15px; }
+
+.linha-dupla{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:16px;
+    margin-bottom:15px;
+}
+
+.flex2{ grid-column:span 1; }
+
+input, textarea{
+    width:100%;
+    border:1px solid var(--borda);
+    border-radius:8px;
+    padding:8px;
+    font-size:15px;
+    background:white;
+    transition:.2s;
+    color:darkblue;
+}
+
+input:focus, textarea:focus{
+    outline:none;
+    border-color:var(--azul);
+    box-shadow:0 0 0 3px rgba(31,78,121,.15);
+}
+
+textarea{
+    resize:vertical;
+    min-height:220px;
+    line-height:1.1;
+}
+
+.blocoResponsavel{
+    margin-top:30px;
+    border-top:2px solid #ddd;
+    padding-top:25px;
+}
+
+.blocoResponsavel h3{
+    text-align:center;
+    color:var(--azulEscuro);
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+.assinaturaBox{
+    width:100%;
+    height:110px;
+    border:2px dashed #999;
+    border-radius:10px;
+    background:#fff;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+
+.assinaturaBox canvas{
+    width:100%;
+    height:100%;
+    display:block;
+    touch-action:none;
+    cursor:crosshair;
+}
+
+.acoesAssinatura{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:20px;
+}
+
+.acoesAssinatura button{
+    background:var(--vermelho);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:10px 18px;
+    cursor:pointer;
+    font-size:14px;
+    transition:.25s;
+}
+
+.acoesAssinatura button:hover{ background:var(--vermelhoHover); }
+
+.barraBotoes{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin:30px 0;
+}
+
+.barraBotoes button{
+    border:none;
+    border-radius:10px;
+    padding:14px 24px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+    min-width:180px;
+}
+
+.primario{ background:var(--azul); color:#fff; }
+.primario:hover{ background:var(--azulEscuro); }
+.verde{ background:var(--verde); color:white; }
+.verde:hover{ background:var(--verdeHover); }
+.secundario{ background:#6c757d; color:white; }
+.secundario:hover{ background:#565e64; }
+button:disabled{ opacity:.6; cursor:not-allowed; }
+
+@media (max-width:768px){
+    body{ padding:12px; }
+    #pdfArea{ padding:20px; }
+    .topo{ padding:20px; }
+    .topo h1{ font-size:20px; }
+    .topo h2{ font-size:15px; }
+    .logo-prefeitura img{ width:75px; }
+    .linha-dupla{ grid-template-columns:1fr; }
+    textarea{ min-height:180px; }
+    .assinaturaBox{ height:180px; }
+    .barraBotoes{ flex-direction:column; }
+    .barraBotoes button{ width:100%; }
+    .marcaDagua img{ width:220px; }
+}
+
+@media print{
+    body{ background:white; padding:0; }
+    .topo{ box-shadow:none; margin:0; border-radius:0; }
+    #pdfArea{ box-shadow:none; border-radius:0; margin:0; }
+    .barraBotoes{ display:none; }
+    .acoesAssinatura{ display:none; }
+}
+
+.descricaoPDF{
+    display:none;
+    border:1px solid #cfcfcf;
+    border-radius:8px;
+    padding:8px;
+    min-height:220px;
+    white-space:pre-wrap;
+    word-break:break-word;
+    line-height:1.1;
+    font-size:15px;
+    background:#fff;
+    color:darkblue;
+}
+
+.blocoResponsavel{
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+
+    page-break-before: auto;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+    <div id="pdfArea">
+    <header class="topo">
+        <div class="logo-prefeitura">
+            <img src="img/logo-prefeitura.png" alt="Prefeitura">
+        </div>
+        <h1>SECRETARIA MUNICIPAL DE DEFESA SOCIAL<br>E MOBILIDADE</h1>
+        <h2>Departamento de Educação para o Trânsito</h2>
+    </header>
+
+    <main>
+        <form id="formRelatorio">
+            
+                
+                <div class="marcaDagua">
+                    <img src="img/brasao-marca-dagua.png">
+                </div>
+
+                <section class="linha">
+                    <label>Local</label>
+                    <input type="text" id="local" autocomplete="off">
+                </section>
+
+                <section class="linha-dupla">
+                    <div>
+                        <label>Data</label>
+                        <input type="date" id="data">
+                    </div>
+                    <div>
+                        <label>Horário Inicial</label>
+                        <input type="time" id="horaInicio">
+                    </div>
+                    <div>
+                        <label>Horário Final</label>
+                        <input type="time" id="horaFim">
+                    </div>
+                </section>
+
+                <section class="linha">
+                    <label>Tema</label>
+                    <input type="text" id="tema">
+                </section>
+
+                <section class="linha-dupla">
+                    <div class="flex2">
+                        <label>Solicitante</label>
+                        <input type="text" id="solicitante">
+                    </div>
+                    <div>
+                        <label>Ofício</label>
+                        <input type="text" id="oficio">
+                    </div>
+                </section>
+
+                <section class="linha">
+                    <label>Materiais Distribuídos</label>
+                    <input type="text" id="materiais">
+                </section>
+
+                <section class="linha">
+                    <label>Quantidade</label>
+                    <input type="text" id="quantidade">
+                </section>
+
+                <section>
+                    <label>Descrição da atividade</label>
+                    <textarea id="descricao" rows="10"></textarea>
+
+                    <div id="descricaoPDF" class="descricaoPDF"></div>
+
+                </section>
+
+                <!-- SERVIDOR RESPONSÁVEL -->
+                <section class="blocoResponsavel">
+                    <h3>Servidor responsável</h3>
+                    <div class="linha">
+                        <label>Nome</label>
+                        <input type="text" id="nomeServidor">
+                    </div>
+                    <label>Assinatura</label>
+                    <div class="assinaturaBox">
+                        <canvas id="assinaturaServidor"></canvas>
+                    </div>
+                    <div class="acoesAssinatura">
+                        <button type="button" id="limparAssServidor">Limpar Assinatura</button>
+                    </div>
+                </section>
+
+                <!-- RESPONSÁVEL INSTITUIÇÃO -->
+                <section class="blocoResponsavel">
+                    <h3>Responsável pela Instituição</h3>
+                    <div class="linha">
+                        <label>Nome</label>
+                        <input type="text" id="nomeInstituicao">
+                    </div>
+                    <label>Assinatura</label>
+                    <div class="assinaturaBox">
+                        <canvas id="assinaturaInstituicao"></canvas>
+                    </div>
+                    <div class="acoesAssinatura">
+                        <button type="button" id="limparAssInstituicao">Limpar Assinatura</button>
+                    </div>
+                </section>
+
+            </div>
+            <!-- fim pdfArea -->
+
+            <div class="barraBotoes">
+                <button type="button" id="btnLimpar" class="secundario">Limpar Formulário</button>
+                <button type="button" id="btnPDF" class="primario">Gerar PDF</button>
+                <button type="button" id="btnCompartilhar" class="verde">Compartilhar PDF</button>
+            </div>
+
+        </form>
+    </main>
+</div>
+
+<script>
+/*=========================================================
+    SCRIPT CORRIGIDO
+=========================================================*/
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+            .catch(err => console.log('Service Worker não registrado:', err));
+    });
+}
+
+// Elementos Principais
+const form = document.getElementById("formRelatorio");
+const pdfArea = document.getElementById("pdfArea");
+const btnPDF = document.getElementById("btnPDF");
+const btnCompartilhar = document.getElementById("btnCompartilhar");
+const STORAGE = "relatorioPalestra";
+
+// Canvas
+const canvasServidor = document.getElementById("assinaturaServidor");
+const canvasInstituicao = document.getElementById("assinaturaInstituicao");
+
+// Variáveis let para poder reinicializar se necessário
+let assinaturaServidor;
+let assinaturaInstituicao;
+let arquivoPDF = null;
+
+const campos = [
+    "local", "data", "horaInicio", "horaFim", "tema",
+    "solicitante", "oficio", "materiais", "quantidade",
+    "descricao", "nomeServidor", "nomeInstituicao"
+];
+
+/*=========================================================
+                    AJUSTAR CANVAS
+=========================================================*/
+function ajustarCanvas(canvas) {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const container = canvas.parentElement;
+    
+    // Fallback robusto para evitar largura/altura 0
+    let largura = canvas.offsetWidth || container.offsetWidth || 830;
+    let altura = canvas.offsetHeight || container.offsetHeight || 220;
+    
+    // Garantir valores mínimos positivos
+    largura = Math.max(largura, 100);
+    altura = Math.max(altura, 100);
+    
+    canvas.width = largura * ratio;
+    canvas.height = altura * ratio;
+    
+    const ctx = canvas.getContext("2d");
+    ctx.scale(ratio, ratio);
+}
+
+/*=========================================================
+                SALVAR FORMULÁRIO
+=========================================================*/
+function salvarFormulario() {
+    if (!assinaturaServidor || !assinaturaInstituicao) return;
+    
+    const dados = {};
+    campos.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) dados[id] = el.value;
+    });
+    
+    if (!assinaturaServidor.isEmpty()) {
+        dados.assServidor = assinaturaServidor.toDataURL();
+    }
+    
+    if (!assinaturaInstituicao.isEmpty()) {
+        dados.assInstituicao = assinaturaInstituicao.toDataURL();
+    }
+    
+    try {
+        localStorage.setItem(STORAGE, JSON.stringify(dados));
+    } catch (e) {
+        console.warn('Erro ao salvar no localStorage:', e);
+    }
+}
+
+/*=========================================================
+            RESTAURAR FORMULÁRIO
+=========================================================*/
+function restaurarFormulario() {
+    const salvo = localStorage.getItem(STORAGE);
+    if (!salvo) return;
+    
+    try {
+        const dados = JSON.parse(salvo);
+        
+        if (!confirm("Foi encontrado um relatório em andamento.\n\nDeseja continuar onde parou?")) {
+            return;
+        }
+        
+        campos.forEach(id => {
+            if (dados[id] !== undefined) {
+                const el = document.getElementById(id);
+                if (el) el.value = dados[id];
+            }
+        });
+        
+        if (dados.assServidor && assinaturaServidor) {
+            assinaturaServidor.fromDataURL(dados.assServidor);
+        }
+        
+        if (dados.assInstituicao && assinaturaInstituicao) {
+            assinaturaInstituicao.fromDataURL(dados.assInstituicao);
+        }
+    } catch (e) {
+        console.error('Erro ao restaurar formulário:', e);
+        localStorage.removeItem(STORAGE);
+    }
+}
+
+/*=========================================================
+                GERAÇÃO DO PDF
+=========================================================*/
+
+async function gerarPDF(compartilhar = false){
+
+    btnPDF.disabled = true;
+    btnCompartilhar.disabled = true;
+
+    const textoOriginal = btnPDF.textContent;
+    btnPDF.textContent = "Gerando PDF...";
+
+    const textarea = document.getElementById("descricao");
+    const descricaoPDF = document.getElementById("descricaoPDF");
+
+    const barraBotoes = document.querySelector(".barraBotoes");
+
+    // Mostra todo o texto no PDF
+    descricaoPDF.textContent = textarea.value;
+    textarea.style.display = "none";
+    descricaoPDF.style.display = "block";
+
+    // Esconde os botões
+    barraBotoes.style.display = "none";
+
+    try{
+
+        const nomeArquivo =
+            "Relatorio_Palestra_" +
+            new Date().toISOString().slice(0,10) +
+            ".pdf";
+
+        const opcoes = {
+
+            margin:10,
+
+            filename:nomeArquivo,
+
+            image:{
+                type:"jpeg",
+                quality:1
+            },
+
+            html2canvas:{
+                scale:2,
+                useCORS:true,
+                allowTaint:true,
+                scrollX:0,
+                scrollY:0
+            },
+
+            jsPDF:{
+                unit:"mm",
+                format:"a4",
+                orientation:"portrait"
+            }
+
+        };
+
+        if(compartilhar){
+
+            const pdf = await html2pdf()
+                .set(opcoes)
+                .from(pdfArea)
+                .outputPdf("blob");
+
+            const arquivo = new File(
+                [pdf],
+                nomeArquivo,
+                {type:"application/pdf"}
+            );
+
+            if(
+                navigator.share &&
+                navigator.canShare &&
+                navigator.canShare({files:[arquivo]})
+            ){
+
+                await navigator.share({
+
+                    title:"Relatório de Palestra",
+
+                    text:"Segue o relatório.",
+
+                    files:[arquivo]
+
+                });
+
+            }else{
+
+                alert("Compartilhamento não suportado neste navegador.");
+
+            }
+
+        }else{
+
+            await html2pdf()
+                .set(opcoes)
+                .from(pdfArea)
+                .save();
+
+        }
+
+    }catch(erro){
+
+        console.error(erro);
+
+        alert("Erro ao gerar o PDF.");
+
+    }finally{
+
+        // Restaura interface
+
+        descricaoPDF.style.display = "none";
+        textarea.style.display = "";
+
+        barraBotoes.style.display = "";
+
+        btnPDF.disabled = false;
+        btnCompartilhar.disabled = false;
+
+        btnPDF.textContent = textoOriginal;
+
+    }
+
+}
+/*=========================================================
+                INICIALIZAÇÃO GERAL
+=========================================================*/
+window.addEventListener('load', function() {
+    
+    // 1. Verificar se as bibliotecas carregaram da internet
+    if (typeof SignaturePad === 'undefined') {
+        alert('ERRO FATAL: A biblioteca de assinatura (SignaturePad) não carregou.\nVerifique sua conexão com a internet e recarregue a página.');
+        return;
+    }
+    
+    // 2. Ajustar tamanho dos Canvas
+    ajustarCanvas(canvasServidor);
+    ajustarCanvas(canvasInstituicao);
+    
+    // 3. Inicializar Pads de Assinatura
+    assinaturaServidor = new SignaturePad(canvasServidor, {
+        penColor: "#000",
+        backgroundColor: "rgb(255,255,255)"
+    });
+    
+    assinaturaInstituicao = new SignaturePad(canvasInstituicao, {
+        penColor: "#000",
+        backgroundColor: "rgb(255,255,255)"
+    });
+    
+    // 4. Eventos das Assinaturas
+    assinaturaServidor.onEnd = salvarFormulario;
+    assinaturaInstituicao.onEnd = salvarFormulario;
+    
+    // 5. Evento de Redimensionamento da tela
+    window.addEventListener("resize", () => {
+        if (!assinaturaServidor || !assinaturaInstituicao) return;
+        
+        const s1 = assinaturaServidor.toData();
+        const s2 = assinaturaInstituicao.toData();
+        
+        ajustarCanvas(canvasServidor);
+        ajustarCanvas(canvasInstituicao);
+        
+        assinaturaServidor.fromData(s1);
+        assinaturaInstituicao.fromData(s2);
+    });
+    
+    // 6. Salvar ao digitar
+    campos.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", salvarFormulario);
+    });
+    
+    // 7. Restaurar dados salvos
+    restaurarFormulario();
+    
+    console.log("✅ Relatório de Palestras inicializado com sucesso.");
+});
+
+/*=========================================================
+            EVENTOS DOS BOTÕES
+=========================================================*/
+
+// Limpar Assinaturas
+document.getElementById("limparAssServidor").addEventListener("click", () => {
+    if (assinaturaServidor) {
+        assinaturaServidor.clear();
+        salvarFormulario();
+    }
+});
+
+document.getElementById("limparAssInstituicao").addEventListener("click", () => {
+    if (assinaturaInstituicao) {
+        assinaturaInstituicao.clear();
+        salvarFormulario();
+    }
+});
+
+// Limpar Formulário Inteiro
+document.getElementById("btnLimpar").addEventListener("click", () => {
+    if (!confirm("Deseja realmente limpar todo o relatório?")) return;
+    
+    form.reset();
+    if (assinaturaServidor) assinaturaServidor.clear();
+    if (assinaturaInstituicao) assinaturaInstituicao.clear();
+    localStorage.removeItem(STORAGE);
+});
+
+// Gerar PDF
+btnPDF.addEventListener("click", () => {
+    gerarPDF(false);
+});
+
+// Compartilhar PDF
+btnCompartilhar.addEventListener("click", async () => {
+    if (!navigator.share || !navigator.canShare) {
+        alert("Seu navegador não suporta a função de compartilhamento nativo.\nClique em 'Gerar PDF' para baixar o arquivo e enviar manualmente.");
+        return;
+    }
+    
+    try {
+        const arquivo = await gerarPDF(true);
+        if (arquivo && navigator.canShare({ files: [arquivo] })) {
+            await navigator.share({
+                title: "Relatório de Palestra",
+                text: "Segue o relatório de atividades em PDF.",
+                files: [arquivo]
+            });
+        }
+    } catch (e) {
+        // AbortError acontece quando o usuário cancela o compartilhamento, não precisa dar alerta
+        if (e.name !== 'AbortError') {
+            console.error("Erro ao compartilhar:", e);
+        }
+    }
+});
+
+// Atalho Ctrl+S
+window.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        gerarPDF(false);
+    }
+});
+
+// Salvar automaticamente ao fechar a aba
+window.addEventListener("beforeunload", salvarFormulario);
+
+</script>
+
+</body>
+</html>
