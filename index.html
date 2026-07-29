@@ -111,7 +111,7 @@ label{
     display:grid;
     grid-template-columns:2fr 1fr 1fr;
     gap:16px;
-    margin-bottom:15px;
+    margin-bottom:12px;
 }
 
 .flex2{ grid-column:span 1; }
@@ -135,7 +135,7 @@ input:focus, textarea:focus{
 
 textarea{
     resize:vertical;
-    min-height:150px;
+    min-height:160px;
     line-height:1.1;
 }
 
@@ -224,42 +224,11 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
     .topo h2{ font-size:15px; }
     .logo-prefeitura img{ width:75px; }
     .linha-dupla{ grid-template-columns:1fr; }
-    textarea{ min-height:150px; }
-    .assinaturaBox{ height:150px; }
+    textarea{ min-height:180px; }
+    .assinaturaBox{ height:180px; }
     .barraBotoes{ flex-direction:column; }
     .barraBotoes button{ width:100%; }
     .marcaDagua img{ width:220px; }
-}
-   /* ==================================================
-        LAYOUT ESPECÍFICO PARA O PDF
-==================================================*/
-
-#pdfArea.modo-pdf{
-
-    width:210mm;
-
-}
-
-#pdfArea.modo-pdf .linha-dupla{
-
-    display:grid !important;
-
-    grid-template-columns:2fr 1fr 1fr !important;
-
-    gap:16px;
-
-}
-
-#pdfArea.modo-pdf input{
-
-    font-size:15px;
-
-}
-
-#pdfArea.modo-pdf textarea{
-
-    font-size:15px;
-
 }
 
 @media print{
@@ -270,12 +239,80 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
     .acoesAssinatura{ display:none; }
 }
 
+/* ==========================================================
+   MODO PDF - Força layout desktop independentemente da tela
+========================================================== */
+.modo-pdf .linha-dupla {
+    grid-template-columns: 2fr 1fr 1fr !important;
+    gap: 10px !important;
+}
+
+.modo-pdf .linha-dupla.duas-colunas {
+    grid-template-columns: 2fr 1fr !important;
+}
+
+.modo-pdf .linha-dupla label {
+    font-size: 11px !important;
+    margin-bottom: 2px !important;
+}
+
+.modo-pdf .linha-dupla input {
+    font-size: 12px !important;
+    padding: 4px 6px !important;
+}
+
+.modo-pdf .linha label {
+    font-size: 11px !important;
+    margin-bottom: 2px !important;
+}
+
+.modo-pdf .linha input {
+    font-size: 12px !important;
+    padding: 4px 6px !important;
+}
+
+.modo-pdf textarea,
+.modo-pdf .descricaoPDF {
+    font-size: 12px !important;
+    min-height: 160px !important;
+}
+
+.modo-pdf .topo h1 {
+    font-size: 18px !important;
+}
+
+.modo-pdf .topo h2 {
+    font-size: 14px !important;
+}
+
+.modo-pdf .logo-prefeitura img {
+    width: 65px !important;
+}
+
+.modo-pdf .blocoResponsavel h3 {
+    font-size: 16px !important;
+    margin-bottom: 10px !important;
+}
+
+.modo-pdf .assinaturaBox {
+    height: 90px !important;
+}
+
+.modo-pdf {
+    padding: 15px !important;
+}
+
+.modo-pdf .blocoResponsavel {
+    margin-top: 20px !important;
+    padding-top: 15px !important;
+}
+
 .descricaoPDF{
     display:none;
     border:1px solid #cfcfcf;
     border-radius:8px;
     padding:8px;
-    min-height:150px;
+    min-height:160px;
     white-space:pre-wrap;
     word-break:break-word;
     line-height:1.1;
@@ -285,22 +322,10 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
 }
 
 .blocoResponsavel{
-
     break-inside: avoid;
     page-break-inside: avoid;
-
     page-break-before: auto;
-
 }
-.descricaoPDF{
-
-    white-space: pre-wrap;
-    word-break: break-word;
-
-    break-inside: auto;
-    page-break-inside: auto;
-
-}   
 
 </style>
 
@@ -321,108 +346,105 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
     <main>
         <form id="formRelatorio">
             
-                
-                <div class="marcaDagua">
-                    <img src="img/brasao-marca-dagua.png">
+            <div class="marcaDagua">
+                <img src="img/brasao-marca-dagua.png">
+            </div>
+
+            <section class="linha">
+                <label>Local</label>
+                <input type="text" id="local" autocomplete="off">
+            </section>
+
+            <section class="linha-dupla">
+                <div>
+                    <label>Data</label>
+                    <input type="date" id="data">
                 </div>
+                <div>
+                    <label>Horário Inicial</label>
+                    <input type="time" id="horaInicio">
+                </div>
+                <div>
+                    <label>Horário Final</label>
+                    <input type="time" id="horaFim">
+                </div>
+            </section>
 
-                <section class="linha">
-                    <label>Local</label>
-                    <input type="text" id="local" autocomplete="off">
-                </section>
+            <section class="linha">
+                <label>Tema</label>
+                <input type="text" id="tema">
+            </section>
 
-                <section class="linha-dupla">
-                    <div>
-                        <label>Data</label>
-                        <input type="date" id="data">
-                    </div>
-                    <div>
-                        <label>Horário Inicial</label>
-                        <input type="time" id="horaInicio">
-                    </div>
-                    <div>
-                        <label>Horário Final</label>
-                        <input type="time" id="horaFim">
-                    </div>
-                </section>
+            <!-- CLASSE 'duas-colunas' ADICIONADA AQUI -->
+            <section class="linha-dupla duas-colunas">
+                <div class="flex2">
+                    <label>Solicitante</label>
+                    <input type="text" id="solicitante">
+                </div>
+                <div>
+                    <label>Ofício</label>
+                    <input type="text" id="oficio">
+                </div>
+            </section>
 
-                <section class="linha">
-                    <label>Tema</label>
-                    <input type="text" id="tema">
-                </section>
+            <section class="linha">
+                <label>Materiais Distribuídos</label>
+                <input type="text" id="materiais">
+            </section>
 
-                <section class="linha-dupla">
-                    <div class="flex2">
-                        <label>Solicitante</label>
-                        <input type="text" id="solicitante">
-                    </div>
-                    <div>
-                        <label>Ofício</label>
-                        <input type="text" id="oficio">
-                    </div>
-                </section>
+            <section class="linha">
+                <label>Quantidade</label>
+                <input type="text" id="quantidade">
+            </section>
 
-                <section class="linha">
-                    <label>Materiais Distribuídos</label>
-                    <input type="text" id="materiais">
-                </section>
+            <section>
+                <label>Descrição da atividade</label>
+                <textarea id="descricao" rows="10"></textarea>
+                <div id="descricaoPDF" class="descricaoPDF"></div>
+            </section>
 
-                <section class="linha">
-                    <label>Quantidade</label>
-                    <input type="text" id="quantidade">
-                </section>
+            <!-- SERVIDOR RESPONSÁVEL -->
+            <section class="blocoResponsavel">
+                <h3>Servidor responsável</h3>
+                <div class="linha">
+                    <label>Nome</label>
+                    <input type="text" id="nomeServidor">
+                </div>
+                <label>Assinatura</label>
+                <div class="assinaturaBox">
+                    <canvas id="assinaturaServidor"></canvas>
+                </div>
+                <div class="acoesAssinatura">
+                    <button type="button" id="limparAssServidor">Limpar Assinatura</button>
+                </div>
+            </section>
 
-                <section>
-                    <label>Descrição da atividade</label>
-                    <textarea id="descricao" rows="10"></textarea>
-
-                    <div id="descricaoPDF" class="descricaoPDF"></div>
-
-                </section>
-
-                <!-- SERVIDOR RESPONSÁVEL -->
-                <section class="blocoResponsavel">
-                    <h3>Servidor responsável</h3>
-                    <div class="linha">
-                        <label>Nome</label>
-                        <input type="text" id="nomeServidor">
-                    </div>
-                    <label>Assinatura</label>
-                    <div class="assinaturaBox">
-                        <canvas id="assinaturaServidor"></canvas>
-                    </div>
-                    <div class="acoesAssinatura">
-                        <button type="button" id="limparAssServidor">Limpar Assinatura</button>
-                    </div>
-                </section>
-
-                <!-- RESPONSÁVEL INSTITUIÇÃO -->
-                <section class="blocoResponsavel">
-                    <h3>Responsável pela Instituição</h3>
-                    <div class="linha">
-                        <label>Nome</label>
-                        <input type="text" id="nomeInstituicao">
-                    </div>
-                    <label>Assinatura</label>
-                    <div class="assinaturaBox">
-                        <canvas id="assinaturaInstituicao"></canvas>
-                    </div>
-                    <div class="acoesAssinatura">
-                        <button type="button" id="limparAssInstituicao">Limpar Assinatura</button>
-                    </div>
-                </section>
-
-            </div>
-            <!-- fim pdfArea -->
-
-            <div class="barraBotoes">
-                <button type="button" id="btnLimpar" class="secundario">Limpar Formulário</button>
-                <button type="button" id="btnPDF" class="primario">Gerar PDF</button>
-                <button type="button" id="btnCompartilhar" class="verde">Compartilhar PDF</button>
-            </div>
+            <!-- RESPONSÁVEL INSTITUIÇÃO -->
+            <section class="blocoResponsavel">
+                <h3>Responsável pela Instituição</h3>
+                <div class="linha">
+                    <label>Nome</label>
+                    <input type="text" id="nomeInstituicao">
+                </div>
+                <label>Assinatura</label>
+                <div class="assinaturaBox">
+                    <canvas id="assinaturaInstituicao"></canvas>
+                </div>
+                <div class="acoesAssinatura">
+                    <button type="button" id="limparAssInstituicao">Limpar Assinatura</button>
+                </div>
+            </section>
 
         </form>
     </main>
+    </div>
+    <!-- fim pdfArea -->
+
+    <div class="barraBotoes">
+        <button type="button" id="btnLimpar" class="secundario">Limpar Formulário</button>
+        <button type="button" id="btnPDF" class="primario">Gerar PDF</button>
+        <button type="button" id="btnCompartilhar" class="verde">Compartilhar PDF</button>
+    </div>
 </div>
 
 <script>
@@ -466,11 +488,9 @@ function ajustarCanvas(canvas) {
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
     const container = canvas.parentElement;
     
-    // Fallback robusto para evitar largura/altura 0
     let largura = canvas.offsetWidth || container.offsetWidth || 830;
     let altura = canvas.offsetHeight || container.offsetHeight || 220;
     
-    // Garantir valores mínimos positivos
     largura = Math.max(largura, 100);
     altura = Math.max(altura, 100);
     
@@ -543,9 +563,8 @@ function restaurarFormulario() {
 }
 
 /*=========================================================
-                GERAÇÃO DO PDF
+                GERAÇÃO DO PDF (CORRIGIDA)
 =========================================================*/
-
 async function gerarPDF(compartilhar = false){
 
     btnPDF.disabled = true;
@@ -556,7 +575,6 @@ async function gerarPDF(compartilhar = false){
 
     const textarea = document.getElementById("descricao");
     const descricaoPDF = document.getElementById("descricaoPDF");
-
     const barraBotoes = document.querySelector(".barraBotoes");
 
     // Mostra todo o texto no PDF
@@ -566,8 +584,9 @@ async function gerarPDF(compartilhar = false){
 
     // Esconde os botões
     barraBotoes.style.display = "none";
-   // Força o layout de impressão (desktop)
-   pdfArea.classList.add("modo-pdf");
+
+    // ★ ATIVA O MODO PDF - força layout lado a lado
+    pdfArea.classList.add("modo-pdf");
 
     try{
 
@@ -592,7 +611,9 @@ async function gerarPDF(compartilhar = false){
                 useCORS:true,
                 allowTaint:true,
                 scrollX:0,
-                scrollY:0
+                scrollY:0,
+                width: pdfArea.scrollWidth,
+                windowWidth: 900
             },
 
             jsPDF:{
@@ -623,13 +644,9 @@ async function gerarPDF(compartilhar = false){
             ){
 
                 await navigator.share({
-
                     title:"Relatório de Palestra",
-
                     text:"Segue o relatório.",
-
                     files:[arquivo]
-
                 });
 
             }else{
@@ -653,8 +670,26 @@ async function gerarPDF(compartilhar = false){
 
         alert("Erro ao gerar o PDF.");
 
+    }finally{
+
+        // ★ DESATIVA O MODO PDF
+        pdfArea.classList.remove("modo-pdf");
+
+        // Restaura interface
+        descricaoPDF.style.display = "none";
+        textarea.style.display = "";
+
+        barraBotoes.style.display = "";
+
+        btnPDF.disabled = false;
+        btnCompartilhar.disabled = false;
+
+        btnPDF.textContent = textoOriginal;
+
+    }
 
 }
+
 /*=========================================================
                 INICIALIZAÇÃO GERAL
 =========================================================*/
@@ -762,7 +797,7 @@ btnCompartilhar.addEventListener("click", async () => {
             });
         }
     } catch (e) {
-        // AbortError acontece quando o usuário cancela o compartilhamento, não precisa dar alerta
+        // AbortError acontece quando o usuário cancela o compartilhamento
         if (e.name !== 'AbortError') {
             console.error("Erro ao compartilhar:", e);
         }
