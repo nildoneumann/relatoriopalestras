@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Relatório de Palestras</title>
@@ -24,7 +22,7 @@
     background:#ffffff;
     border-radius:12px;
     box-shadow:0 6px 20px rgba(0,0,0,.15);
-    padding:15px;
+    padding:10px 35px;
     text-align:center;
     margin-bottom:20px;
 }
@@ -54,10 +52,10 @@
     label { display: block; margin-top: 7px; }
     input[type="text"], input[type="date"], input[type="time"], textarea {
       width: 100%; padding: 5px; font-weight: bold; font-size: 15px;
-      color: blue; border-radius: 8px; border: 1.5px solid #48648a;
+      color: darkblue; border-radius: 9px; border: 1.5px solid #48648a;
     }
     textarea {
-      height: auto; min-height: 225px; color: blue; font-family: Arial, sans-serif; font-size: 14px;
+      height: auto; min-height: 200px; color: darkblue; font-family: Arial, sans-serif; font-size: 14px;
     }
     .btn {
       margin-top: 8px; padding: 10px 15px; font-weight: bold; font-size: 18px;
@@ -71,71 +69,72 @@
       cursor: pointer; width: 100%; margin-bottom: 8px;
     }
     p {
-      color: red; margin-top: 2px; font-size: 12px; text-align: center; padding: 2px; background-color: #ffffc5; border-radius: 5px;
+      color: white; margin-top: 2px; font-size: 12px; text-align: center; padding: 2px 3px; background-color: blue; border-radius: 6px;
     }
-    #pdf-content { background-color: #D6FFFF; padding: 15px 10px; border-radius: 4px; }
-    canvas.assinatura { border: 1px solid #000; border-radius: 5px; }
+    #pdf-content { background-color: #d4f1f9; padding: 15px 10px; border-radius: 4px; }
+    canvas.assinatura { border: 1px solid #000; border-radius: 5px; background:#ffffff; }
     .neumann { font-size: 9px; color: #24436e; text-align: right; margin-bottom: 16px; letter-spacing: 0.3px; }
-    .equipe { margin-top: 3px; background-color: #dbead5; padding: 5px 3px; border-radius: 4px; color: #00498b; }
+    .equipe { margin-top: 3px; padding: 5px; border-radius: 4px; color: #00498b; }
      .digital { margin-top: 7px; padding: 10px 15px; font-weight: bold; font-size: 18px;
       background-color: green; color: blue; border-radius: 10px;
       cursor: pointer; width: 100%; }
      </style>
 </head>
 <body>
-<label for="nome" style="font-size: 8px; color:yellow; letter-spacing: 0.3px;">© 2025 Leonildo.Neumann</label>
+<label for="nome" style="font-size: 8px; color:yellow; letter-spacing: 0.3px;">© 2026 Leonildo.Neumann</label>
 <div id="pdf-content">
   <header class="topo">
        <div style="display:grid;
     grid-template-columns:1fr 3fr;
-    gap:6px; margin-bottom:2px;">
+    gap:6px; margin-bottom:1px;">
         <div class="logo-prefeitura">
-            <img src="logo-smdsm.png" alt="Prefeitura">
+            <img src="logo-smdsm.png" alt="SMDSM">
         </div>
-        <h1>SECRETARIA MUNICIPAL DE DEFESA SOCIAL<br>E MOBILIDADE</h1>
+        <h1>SECRETARIA MUNICIPAL DE DEFESA SOCIAL E MOBILIDADE</h1>
        </div>
         <h2>Departamento de Educação para o Trânsito</h2>
     </header>
 
-  <label>LOCAL: <input type="text" name="local"></label> 
+  <label>Local: <input type="text" name="local"></label> 
   <div class="linha-horizontal">
     <label>Data: <input type="date" name="data"></label>
     <label>Hora Início: <input type="time" name="hora_inicio"></label>
     <label>Hora Término: <input type="time" name="hora_termino"></label>
   </div>
   <div class="linha-horizontal">
-    <label>SOLICITANTE: <input type="text" name="solicitante"></label>
-    <label>OFÍCIO: <input type="text" name="telefone"></label>
+    <label>Solicitante: <input type="text" name="solicitante"></label>
+    <label>Ofício: <input type="text" name="telefone"></label>
   </div>
-  <label>MATERIAIS DISTRIBUÍDOS: <input type="text" name="materiais"></label>
-  <label>QUANTIDADE: <input type="text" name="quantidade"></label>
-  <label>DESCRIÇAO DA ATIVIDADE: <textarea name="relatorio"></textarea></label>
+  <label>Materiais distribuídos: <input type="text" name="materiais"></label>
+  <label>Quantidade: <input type="text" name="quantidade"></label>
+  <label>Descrição da atividade: <textarea name="relatorio"></textarea></label>
   
 
   <div class="equipe">
-    <label style="background-color: white; width: 230px; text-align: center; margin-top: 1px">Servidor Responsável:</label>
+    <label style="text-align: center; margin-top: 1px">Servidor Responsável:</label>
     <label>Nome: <input type="text" name="responsavel"></label>
    <div class="caixa-assinatura">
-    <label>Assinaturas:</label>
+    <label>Assinatura:</label>
     <canvas class="assinatura" width="690" height="170"></canvas>
    </div>
   </div>
 
   <div class="equipe">
-    <label style="background-color: white; width: 230px; text-align: center; margin-top: 1px">Responsável pela Instituição:</label>
+    <label style="text-align: center; margin-top: 1px">Responsável pela Instituição:</label>
     <label>Nome: <input type="text" name="responsavel"></label>
    <div class="caixa-assinatura">
-    <label>Assinaturas:</label>
+    <label>Assinatura:</label>
     <canvas class="assinatura" width="690" height="170"></canvas>
    </div>
   </div>
   
 
-  <p><strong>OBS:</strong> Este documento é uma coleta preliminar de dados, para controle de atendimentos de ACIDENTES/OCORRÊNCIA da SMDSM, e não substitui o registro realizado por outros órgãos.</p>
+  <p> Secretaria Municipal de Defesa Social e Mobilidade<br>Av. Sebastiãode Camargo Ribas, 2301  (042) 3142-1940<br>
+  setran@guarapuava.pr.gov.br</p>
 
   <div class="neumann">
     <div style="position: relative;">
-      <label style="position: absolute; right: 0;">© 2025 Leonildo.Neumann</label>
+      <label style="position: absolute; right: 0;">© 2026 Leonildo.Neumann</label>
     </div>
   </div>
 </div>
@@ -261,11 +260,11 @@ function gerarPDF() {
     div.style.whiteSpace = 'pre-wrap';
     div.style.border = '1px solid #ccc';
     div.style.padding = '5px';
-    div.style.minHeight = '80px';
+    div.style.minHeight = '60px';
     div.style.fontWeight = 'bold';
     div.style.fontSize = '14px';
     div.style.backgroundColor = 'white';
-    div.style.color = 'blue';
+    div.style.color = 'darkblue';
     div.textContent = textarea.value;
     textarea.parentNode.replaceChild(div, textarea);
   });
@@ -306,11 +305,11 @@ async function compartilharPDF() {
     div.style.whiteSpace = 'pre-wrap';
     div.style.border = '1px solid #ccc';
     div.style.padding = '5px';
-    div.style.minHeight = '80px';
+    div.style.minHeight = '60px';
     div.style.fontWeight = 'bold';
     div.style.fontSize = '14px';
     div.style.backgroundColor = 'white';
-    div.style.color = 'blue';
+    div.style.color = 'darkblue';
     div.textContent = textarea.value;
     textarea.parentNode.replaceChild(div, textarea);
   });
