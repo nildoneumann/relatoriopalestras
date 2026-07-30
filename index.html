@@ -10,17 +10,17 @@
     * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
-      padding: 15px;
+      padding: 15px 3px;
       font-size: 16px;
       font-weight: bold;
       max-width: 900px;
       margin: auto;
       color: #132c0d;
-      background-color: #0088FF;
+      background-color: #191970;
     }
     .topo{
-    background:#ffffff;
-    border-radius:12px;
+    background:#f9ffe3;
+    border-radius:15px;
     box-shadow:0 6px 20px rgba(0,0,0,.15);
     padding:10px 35px;
     text-align:center;
@@ -38,7 +38,7 @@
 
 .topo h2{
     font-size:18px;
-    color:#44798e;
+    color:#13654;
     font-weight:normal;
 }
 
@@ -51,15 +51,15 @@
     }
     label { display: block; margin-top: 7px; }
     input[type="text"], input[type="date"], input[type="time"], textarea {
-      width: 100%; padding: 5px; font-weight: bold; font-size: 15px;
-      color: darkblue; border-radius: 9px; border: 1.5px solid #48648a;
+      width: 100%; padding: 5px 6px; font-weight: bold; font-size: 15px;
+      color: darkblue; border-radius: 9px; border: 1px solid #48648a;
     }
     textarea {
       height: auto; min-height: 200px; color: darkblue; font-family: Arial, sans-serif; font-size: 14px;
     }
     .btn {
-      margin-top: 8px; padding: 10px 15px; font-weight: bold; font-size: 18px;
-      background-color: #D6FFFF; color: blue; border-radius: 14px;
+      margin-top: 5px; padding: 10px 15px; font-weight: bold; font-size: 18px;
+      background-color: #D6FFFF; color: #191970; border-radius: 15px;
       cursor: pointer; width: 100%;
     }
         .btn:not(:last-child) { margin-bottom: 10px; }
@@ -71,8 +71,8 @@
     p {
       color: white; margin-top: 2px; font-size: 12px; text-align: center; padding: 3px; background-color: blue; border-radius: 6px;
     }
-    #pdf-content { background-color: #f0ffff; padding: 15px 10px; border-radius: 4px; }
-    canvas.assinatura { border: 1px solid #000; border-radius: 5px; background:#ffffff; }
+    #pdf-content { background-color: #f0ffff; padding: 15px 13px; border-radius: 15px; }
+    canvas.assinatura { border: 1px solid #000; border-radius: 7px; background: lightyellow; }
     .neumann { font-size: 9px; color: #24436e; text-align: right; margin-bottom: 16px; letter-spacing: 0.3px; }
     .equipe { margin-top: 3px; padding: 5px; border-radius: 4px; color: #00498b; }
      .digital { margin-top: 7px; padding: 10px 15px; font-weight: bold; font-size: 18px;
@@ -81,7 +81,7 @@
      </style>
 </head>
 <body>
-<label for="nome" style="font-size: 8px; color:yellow; letter-spacing: 0.3px;">© 2026 Leonildo.Neumann</label>
+<label for="nome" style="font-size: 8px; color:yellow; letter-spacing: 0.3px; margin-left: 10px;">© 2026 Leonildo.Neumann</label>
 <div id="pdf-content">
   <header class="topo">
        <div style="display:grid;
@@ -140,14 +140,11 @@
   </div>
 </div>
 
-<div style="padding: 6px 10px; margin-top: 1px; background-color: #D6FFFF; border-radius: 4px">
+<div style="padding: 13px">
 <button class="btn" onclick="limparAssinatura()" style="background-color: white; color: #15400e; margin-top: 5px">Limpar Assinaturas</button>
-</div>
-
 <button class="btn" onclick="compartilharPDF(); this.style.backgroundColor='#D6FFFF'; this.style.color='#c0c0c0'; this.innerHTML='✅ PDF Compartilhado!';">Compartilhar PDF</button>
 <button class="btn" onclick="gerarPDF(); this.style.backgroundColor='#D6FFFF'; this.style.color='#c0c0c0'; this.innerHTML='✅ PDF Baixado!';">Baixar PDF</button>
-
-
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
