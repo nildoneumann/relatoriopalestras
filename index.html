@@ -22,7 +22,7 @@
     background:#f9ffe3;
     border-radius:15px;
     box-shadow:0 6px 20px rgba(0,0,0,.15);
-    padding:10px 35px;
+    padding:10px 35px 5px;
     text-align:center;
     margin-bottom:20px;
 }
@@ -58,8 +58,7 @@
       height: auto; min-height: 200px; color: darkblue; font-family: Arial, sans-serif; font-size: 14px;
     }
     .btn {
-      margin-top: 5px; padding: 10px 15px; font-weight: bold; font-size: 18px;
-      background-color: #D6FFFF; color: #191970; border-radius: 15px;
+      margin-top: 5px; padding: 10px 15px; font-weight: bold; font-size: 18px; color: white; border-radius: 15px;
       cursor: pointer; width: 100%;
     }
         .btn:not(:last-child) { margin-bottom: 10px; }
@@ -69,7 +68,7 @@
       cursor: pointer; width: 100%; margin-bottom: 8px;
     }
     p {
-      color: white; margin-top: 2px; font-size: 12px; text-align: center; padding: 3px; background-color: blue; border-radius: 6px;
+      color: white; margin-top: 4px; font-size: 12px; text-align: center; padding: 3px; background-color: blue; border-radius: 8px;
     }
     #pdf-content { background-color: #f0ffff; padding: 15px 13px; border-radius: 15px; }
     canvas.assinatura { border: 1px solid #000; border-radius: 7px; background: lightyellow; }
@@ -112,7 +111,7 @@
   
 
   <div class="equipe">
-    <label style="text-align: center; margin-top: 1px">Servidor Responsável</label>
+    <label style="text-align: center; margin-top: 2px">Servidor Responsável</label>
     <label>Nome: <input type="text" name="responsavel"></label>
    <div class="caixa-assinatura">
     <label>Assinatura</label>
@@ -141,9 +140,9 @@
 </div>
 
 <div style="padding: 13px">
-<button class="btn" onclick="limparAssinatura()" style="background-color: white; color: #15400e; margin-top: 5px">Limpar Assinaturas</button>
-<button class="btn" onclick="compartilharPDF(); this.style.backgroundColor='#D6FFFF'; this.style.color='#c0c0c0'; this.innerHTML='✅ PDF Compartilhado!';">Compartilhar PDF</button>
-<button class="btn" onclick="gerarPDF(); this.style.backgroundColor='#D6FFFF'; this.style.color='#c0c0c0'; this.innerHTML='✅ PDF Baixado!';">Baixar PDF</button>
+<button class="btn" onclick="limparAssinatura()" style="background-color: lightyellow; color: #15400e; margin-top: 5px">Limpar Assinaturas</button>
+<button class="btn" onclick="compartilharPDF(); this.style.backgroundColor='#D6FFFF'; this.style.color='#c0c0c0'; this.innerHTML='✅ PDF Compartilhado!';" style="background-color: green">Compartilhar PDF</button>
+<button class="btn" onclick="gerarPDF(); this.style.backgroundColor='#D6FFFF'; this.style.color='#c0c0c0'; this.innerHTML='✅ PDF Baixado!';" style="background-color: blue">Baixar PDF</button>
 </div>
 
 <script>
